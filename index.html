@@ -847,7 +847,7 @@ a.nav-pill {
 
 <script>
 const levels = [
-  {rank:1,  name:"LOVESTRUCK",           verifier:"kitsune",     victors:[],                                                                                                                            move:"new",  tc:0, cbf:false},
+  {rank:1,  name:"LOVESTRUCK",           verifier:"kitsune",     victors:[],                                                                                                                            move:"new",  tc:0, cbf:false, ytId: "tiVKlp6OPUA"},
   {rank:2,  name:"Withered Flame",        verifier:"kitsune",     victors:[],                                                                                                                           move:"down1",tc:2, cbf:false},
   {rank:3,  name:"mooimimo challenge",    verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false},
   {rank:4,  name:"do it again peasant!!", verifier:"kitsune",     victors:[],                                                                                                                           move:"up1",  tc:4, cbf:false},
@@ -907,19 +907,23 @@ function rankClass(r) {
   if(r===3) return "rank-3";
   return "rank-other";
 }
-
 function renderCard(l, i) {
   const hasStar = l.rank <= 3;
   const victorHtml = l.victors.length > 0
     ? l.victors.map(v=>`<span class="victor-chip">${v}</span>`).join("")
     : '<span class="no-victors">No victors yet</span>';
 
+  // THIS IS THE NEW PART: It checks for the YouTube ID
+  const thumbContent = l.ytId 
+    ? `<img src="https://img.youtube.com/vi/${l.ytId}/mqdefault.jpg" class="thumb-img">`
+    : `<div class="thumb-bg tc${l.tc}">${l.name}</div>`;
+
   return `<div class="level-card" data-idx="${i}" style="animation-delay:${Math.min(i*0.025,0.3)}s">
     <div class="thumb">
-      <div class="thumb-bg tc${l.tc}">${l.name}</div>
-      <div class="rank-num ${rankClass(l.rank)}">#${l.rank}</div>
-      ${hasStar ? '<span class="star-icon">&#9733;</span>' : ""}
-    </div>
+      <div class="thumb">
+  ${thumbContent} 
+  <div class="rank-num ...">#${l.rank}</div>
+</div>
     <div class="card-info">
       <div class="level-name">${l.name}</div>
       <div class="verifier-line">Verified by <strong>${l.verifier}</strong></div>
