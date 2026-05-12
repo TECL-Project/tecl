@@ -303,16 +303,15 @@ header {
 }
 
 .level-card {
-  display: flex;
+  display: flex; /* This is the most important line! */
   align-items: stretch;
+  flex-direction: row; /* This ensures it stays horizontal */
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
   margin-bottom: 8px;
   overflow: hidden;
-  transition: border-color 0.2s, background 0.2s;
-  cursor: pointer;
-  animation: fadeIn 0.3s ease both;
+  min-height: 100px; /* Optional: keeps cards a consistent height */
 }
 
 .level-card:hover {
@@ -848,29 +847,29 @@ a.nav-pill {
 <script>
 const levels = [
   {rank:1,  name:"LOVESTRUCK",           verifier:"kitsune",     victors:[],                                                                                                                            move:"new",  tc:0, cbf:false, ytId: "tiVKlp6OPUA"},
-  {rank:2,  name:"Withered Flame",        verifier:"kitsune",     victors:[],                                                                                                                           move:"down1",tc:2, cbf:false},
-  {rank:3,  name:"mooimimo challenge",    verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false},
-  {rank:4,  name:"do it again peasant!!", verifier:"kitsune",     victors:[],                                                                                                                           move:"up1",  tc:4, cbf:false},
-  {rank:5,  name:"NECR0MANCY",            verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:0, cbf:false},
-  {rank:6,  name:"Lovesick",              verifier:"kitsune",     victors:[],                                                                                                                           move:"down2",tc:1, cbf:false},
-  {rank:7,  name:"SFDW",                  verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false},
-  {rank:8,  name:"NECRO;MANCY",           verifier:"kitsune",     victors:[],                                                                                                                           move:"up",   tc:0, cbf:false},
-  {rank:9,  name:"kitsune chal easy",     verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:4, cbf:false},
-  {rank:10, name:"Heat Waves",            verifier:"kitsune",     victors:[],                                                                                                                           move:"down4",tc:2, cbf:false},
-  {rank:11, name:"Indigo",                verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:1, cbf:false},
-  {rank:12, name:"CorroZ",                verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false},
-  {rank:13, name:"VSCx2",                 verifier:"nev",         victors:["kitsune"],                                                                                                                  move:"",     tc:4, cbf:false},
-  {rank:14, name:"Slyvernus (buffdate)",  verifier:"kitsune",     victors:["skitsunafan"],                                                                                                              move:"up",   tc:2, cbf:false},
-  {rank:15, name:"re",                    verifier:"torn",        victors:["kitsune"],                                                                                                                  move:"down", tc:0, cbf:false},
-  {rank:16, name:"FINAL FLIGHT",          verifier:"Caleger",     victors:["kitsune"],                                                                                                                  move:"down", tc:3, cbf:false},
-  {rank:17, name:"final; fantasy",        verifier:"telepracity", victors:["parker","PDarky","paqoe","kitsune","raphyy","m/","DenseCabbage","BryceTheBest","NucDev"],                                   move:"new",  tc:1, cbf:false},
-  {rank:18, name:"VSC",                   verifier:"Yossarian",   victors:["Diamond","Nev9","paqoe","Denni","fluxe","Cursed","Doggie","Conix","kitsune","Cat enthusiast","jacksonamore","Jonah","Trick","seels55","Netermind","The_Bat0","richoffairpods","notkris","zStucc","LAMINGTON","xaern","kirtricky","loststraggler","pohgii","za1lx","Sydno","teraaa","zRoud","wint3r","cavez","OverGD","Tihra","nobbbin"], move:"new",tc:4, cbf:false},
-  {rank:19, name:"EVIL",                  verifier:"Hellfire2603",victors:["kitsune"],                                                                                                                  move:"q",    tc:2, cbf:false},
-  {rank:20, name:"Illusion of Hell",      verifier:"OverGD",      victors:["Diamond","kitsune"],                                                                                                        move:"down", tc:0, cbf:false},
-  {rank:21, name:"INTERCONNECTED",       verifier:"NucGDStuff",  victors:["kitsune"],                                                                                                                  move:"",     tc:3, cbf:true},
-  {rank:22, name:"EXPIRATION DATE",       verifier:"Quad",        victors:["seels55","kitsune","notkris"],                                                                                              move:"new",  tc:1, cbf:false},
-  {rank:23, name:"anodyne",               verifier:"zXdasfa",     victors:["kitsune","OverGD"],                                                                                                         move:"",     tc:2, cbf:false},
-  {rank:24, name:"Oblivers",              verifier:"OverGD",      victors:["seels55","Cat enthusiast","Sydno","LAMINGTON","jake","kitsune"],                                                             move:"new",  tc:4, cbf:false},
+  {rank:2,  name:"Withered Flame",        verifier:"kitsune",     victors:[],                                                                                                                           move:"down1",tc:2, cbf:false, ytId: "placeholder"},
+  {rank:3,  name:"mooimimo challenge",    verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false, ytId: "placeholder"},
+  {rank:4,  name:"do it again peasant!!", verifier:"kitsune",     victors:[],                                                                                                                           move:"up1",  tc:4, cbf:false, ytId: "placeholder"},
+  {rank:5,  name:"NECR0MANCY",            verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:0, cbf:false, ytId: "placeholder"},
+  {rank:6,  name:"Lovesick",              verifier:"kitsune",     victors:[],                                                                                                                           move:"down2",tc:1, cbf:false, ytId: "placeholder"},
+  {rank:7,  name:"SFDW",                  verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false, ytId: "placeholder"},
+  {rank:8,  name:"NECRO;MANCY",           verifier:"kitsune",     victors:[],                                                                                                                           move:"up",   tc:0, cbf:false, ytId: "placeholder"},
+  {rank:9,  name:"kitsune chal easy",     verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:4, cbf:false, ytId: "placeholder"},
+  {rank:10, name:"Heat Waves",            verifier:"kitsune",     victors:[],                                                                                                                           move:"down4",tc:2, cbf:false, ytId: "placeholder"},
+  {rank:11, name:"Indigo",                verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:1, cbf:false, ytId: "placeholder"},
+  {rank:12, name:"CorroZ",                verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false, ytId: "placeholder"},
+  {rank:13, name:"VSCx2",                 verifier:"nev",         victors:["kitsune"],                                                                                                                  move:"",     tc:4, cbf:false, ytId: "placeholder"},
+  {rank:14, name:"Slyvernus (buffdate)",  verifier:"kitsune",     victors:["skitsunafan"],                                                                                                              move:"up",   tc:2, cbf:false, ytId: "placeholder"},
+  {rank:15, name:"re",                    verifier:"torn",        victors:["kitsune"],                                                                                                                  move:"down", tc:0, cbf:false, ytId: "placeholder"},
+  {rank:16, name:"FINAL FLIGHT",          verifier:"Caleger",     victors:["kitsune"],                                                                                                                  move:"down", tc:3, cbf:false, ytId: "placeholder"},
+  {rank:17, name:"final; fantasy",        verifier:"telepracity", victors:["parker","PDarky","paqoe","kitsune","raphyy","m/","DenseCabbage","BryceTheBest","NucDev"],                                   move:"new",  tc:1, cbf:false, ytId: "placeholder"},
+  {rank:18, name:"VSC",                   verifier:"Yossarian",   victors:["Diamond","Nev9","paqoe","Denni","fluxe","Cursed","Doggie","Conix","kitsune","Cat enthusiast","jacksonamore","Jonah","Trick","seels55","Netermind","The_Bat0","richoffairpods","notkris","zStucc","LAMINGTON","xaern","kirtricky","loststraggler","pohgii","za1lx","Sydno","teraaa","zRoud","wint3r","cavez","OverGD","Tihra","nobbbin"], move:"new",tc:4, cbf:false, ytId: "placeholder"},
+  {rank:19, name:"EVIL",                  verifier:"Hellfire2603",victors:["kitsune"],                                                                                                                  move:"q",    tc:2, cbf:false, ytId: "placeholder"},
+  {rank:20, name:"Illusion of Hell",      verifier:"OverGD",      victors:["Diamond","kitsune"],                                                                                                        move:"down", tc:0, cbf:false, ytId: "placeholder"},
+  {rank:21, name:"INTERCONNECTED",       verifier:"NucGDStuff",  victors:["kitsune"],                                                                                                                  move:"",     tc:3, cbf:true, ytId: "placeholder"},
+  {rank:22, name:"EXPIRATION DATE",       verifier:"Quad",        victors:["seels55","kitsune","notkris"],                                                                                              move:"new",  tc:1, cbf:false, ytId: "placeholder"},
+  {rank:23, name:"anodyne",               verifier:"zXdasfa",     victors:["kitsune","OverGD"],                                                                                                         move:"",     tc:2, cbf:false, ytId: "placeholder"},
+  {rank:24, name:"Oblivers",              verifier:"OverGD",      victors:["seels55","Cat enthusiast","Sydno","LAMINGTON","jake","kitsune"],                                                             move:"new",  tc:4, cbf:false, ytId: "placeholder"},
 ];
 
 const allVictors = new Set(levels.flatMap(l=>l.victors));
