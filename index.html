@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TECL — The Everything Challenge List</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.youtube.com/iframe_api"></script>
 <style>
 :root {
   --bg: #0a0a0f;
   --bg2: #0f0f18;
-  --bg3: #141420;
   --surface: #1a1a28;
   --surface2: #20202f;
   --border: rgba(255,255,255,0.07);
@@ -19,1020 +19,398 @@
   --accent2: #7c3aed;
   --accent3: #c4b5fd;
   --gold: #fbbf24;
-  --silver: #94a3b8;
-  --bronze: #c08040;
   --green: #34d399;
-  --red: #f87171;
   --text: #e2e8f0;
   --muted: #64748b;
   --muted2: #94a3b8;
+  --container: 1200px;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 400;
+/* Base Styles & Scrollbar */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+  background: var(--bg); 
+  color: var(--text); 
+  font-family: 'Nunito Sans', sans-serif; 
   min-height: 100vh;
   overflow-x: hidden;
 }
+body::-webkit-scrollbar { width: 10px; }
+body::-webkit-scrollbar-track { background: var(--bg); }
+body::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 5px; border: 2px solid var(--bg); }
 
-/* ---- BACKGROUND GRID ---- */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(167,139,250,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(167,139,250,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
+/* Header & Nav */
+header { 
+  background: rgba(10,10,15,0.85); 
+  backdrop-filter: blur(15px); 
+  border-bottom: 1px solid var(--border); 
+  position: sticky; 
+  top: 0; 
+  z-index: 1000; 
+}
+.header-inner { 
+  max-width: var(--container); 
+  margin: 0 auto; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  height: 80px; 
+  padding: 0 2rem; 
+}
+.logo { 
+  font-family: 'Nunito', sans-serif; 
+  font-weight: 900; 
+  font-size: 28px; 
+  color: var(--accent3); 
+  letter-spacing: -0.5px;
 }
 
-body::after {
-  content: '';
-  position: fixed;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 400px;
-  background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+.nav-group { display: flex; gap: 15px; }
+.nav-pill { 
+  font-family: 'Nunito', sans-serif; 
+  font-size: 14px; 
+  font-weight: 700; 
+  padding: 10px 22px; 
+  border-radius: 8px; 
+  border: 1px solid var(--border2); 
+  color: var(--muted2); 
+  background: transparent; 
+  cursor: pointer; 
+  transition: 0.2s ease; 
+  text-transform: uppercase; 
+}
+.nav-pill:hover, .nav-pill.active { 
+  border-color: var(--accent); 
+  color: var(--accent3); 
+  background: rgba(167, 139, 250, 0.08); 
 }
 
-/* ---- HEADER ---- */
-header {
-  position: relative;
-  z-index: 10;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,15,0.8);
-  backdrop-filter: blur(12px);
-  padding: 0 2rem;
+/* Search Bar Section */
+.hero-controls { 
+  max-width: var(--container); 
+  margin: 0 auto; 
+  padding: 40px 2rem 10px; 
+}
+.search-wrapper { position: relative; max-width: 500px; }
+.search-input { 
+  width: 100%; 
+  background: var(--surface); 
+  border: 1px solid var(--border2); 
+  border-radius: 12px; 
+  padding: 16px 20px; 
+  color: #fff; 
+  font-size: 16px; 
+  outline: none; 
+  transition: 0.2s; 
+}
+.search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.1); }
+
+/* List Styles */
+.list-container { 
+  max-width: var(--container); 
+  margin: 0 auto; 
+  padding: 0 2rem 100px; 
 }
 
-.header-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
+.level-card { 
+  display: flex; 
+  background: var(--surface); 
+  border: 1px solid var(--border); 
+  border-radius: 12px; 
+  margin-top: 15px; 
+  overflow: hidden; 
+  cursor: pointer; 
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+.level-card:hover { 
+  border-color: var(--accent); 
+  background: var(--surface2); 
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-.logo {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: 0.08em;
-  color: var(--accent3);
-  text-transform: uppercase;
+.thumb-area { 
+  width: 180px; 
+  min-width: 180px; 
+  height: 110px; 
+  position: relative; 
+  background: #000; 
+}
+.thumb-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: 0.3s; }
+.level-card:hover .thumb-img { opacity: 1; }
+.rank-tag { 
+  position: absolute; 
+  top: 10px; 
+  left: 10px; 
+  background: rgba(0,0,0,0.9); 
+  padding: 4px 12px; 
+  border-radius: 6px; 
+  font-weight: 900; 
+  font-size: 16px; 
+  border: 1px solid var(--border2); 
 }
 
-.logo span {
-  color: var(--accent);
-  font-size: 13px;
-  display: block;
-  letter-spacing: 0.2em;
-  font-weight: 600;
-  font-family: 'Nunito Sans', sans-serif;
-  color: var(--muted2);
-  margin-top: -4px;
+.card-content { flex: 1; padding: 20px 30px; display: flex; flex-direction: column; justify-content: center; }
+.level-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; }
+.level-author { font-size: 15px; color: var(--muted2); }
+.level-author strong { color: var(--text); }
+
+.card-meta-end { 
+  padding: 20px 30px; 
+  text-align: right; 
+  min-width: 180px; 
+  border-left: 1px solid var(--border); 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+}
+.score-value { color: var(--green); font-weight: 900; font-size: 22px; }
+.score-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Expanded Panel Detail */
+.detail-panel { 
+  display: none; 
+  background: var(--bg2); 
+  border: 1px solid var(--border); 
+  border-top: none; 
+  border-radius: 0 0 12px 12px; 
+  height: 520px; 
+  grid-template-columns: 1.4fr 1fr; 
+  overflow: hidden; 
+}
+.detail-panel.open { display: grid; }
+
+.panel-video { padding: 35px; display: flex; flex-direction: column; justify-content: center; }
+.panel-info { padding: 35px; overflow-y: auto; background: rgba(255,255,255,0.01); }
+
+.video-wrapper { 
+  width: 100%; 
+  aspect-ratio: 16 / 9; 
+  background: #000; 
+  border-radius: 10px; 
+  overflow: hidden; 
+  box-shadow: 0 15px 45px rgba(0,0,0,0.7); 
 }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.section-head { 
+  font-size: 13px; 
+  text-transform: uppercase; 
+  letter-spacing: 2px; 
+  color: var(--muted); 
+  font-weight: 800; 
+  margin-bottom: 20px; 
+  border-bottom: 1px solid var(--border); 
+  padding-bottom: 10px; 
 }
 
-.nav-pill {
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 4px;
-  border: 1px solid var(--border2);
-  color: var(--muted2);
-  cursor: pointer;
-  background: transparent;
-  transition: all 0.2s;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.stat-item { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 14px 0; 
+  border-bottom: 1px solid rgba(255,255,255,0.03); 
+  font-size: 15px; 
 }
+.stat-label { color: var(--muted); }
+.stat-val { color: #fff; font-weight: 600; }
+.accent-link { color: var(--accent); text-decoration: none; font-weight: 800; }
 
-.nav-pill:hover { border-color: var(--accent); color: var(--accent3); background: rgba(167,139,250,0.05); }
-.nav-pill.active { border-color: var(--accent2); background: rgba(124,58,237,0.2); color: var(--accent3); }
-
-/* ---- HERO ---- */
-.hero {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-  padding: 60px 2rem 40px;
+.victor-row { 
+  background: var(--surface); 
+  border: 1px solid var(--border2); 
+  padding: 16px; 
+  border-radius: 10px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 10px; 
 }
+.victor-name { font-weight: 700; color: #fff; font-size: 15px; }
 
-.hero-title {
-  font-family: 'Nunito', sans-serif;
-  font-size: clamp(42px, 8vw, 80px);
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-.hero-title em {
-  font-style: normal;
-  color: var(--accent);
-  position: relative;
-}
-
-.hero-title em::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--accent2);
-  border-radius: 2px;
-  opacity: 0.6;
-}
-
-.hero-sub {
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 32px;
-}
-
-.stats-row {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-
-.stat {
-  text-align: center;
-}
-
-.stat-num {
-  font-family: 'Nunito', sans-serif;
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--accent3);
-  display: block;
-}
-
-.stat-label {
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 600;
-}
-
-/* ---- CONTROLS ---- */
-.controls {
-  position: relative;
-  z-index: 5;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.search-wrap {
-  position: relative;
-  flex: 1;
-  min-width: 200px;
-  max-width: 320px;
-}
-
-.search-wrap svg {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-  width: 15px;
-  height: 15px;
-}
-
-.search-input {
-  width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 6px;
-  padding: 9px 12px 9px 36px;
-  font-size: 13px;
-  color: var(--text);
-  outline: none;
-  font-family: 'Inter', sans-serif;
-  transition: border-color 0.2s;
-}
-
-.search-input:focus { border-color: var(--accent2); }
-.search-input::placeholder { color: var(--muted); }
-
-.sort-label {
-  font-size: 13px;
-  color: var(--muted);
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 600;
-  margin-left: 8px;
-}
-
-.sort-pill {
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 7px 16px;
-  border-radius: 4px;
-  border: 1px solid var(--border2);
-  color: var(--muted2);
-  cursor: pointer;
-  background: transparent;
-  transition: all 0.15s;
-  letter-spacing: 0.01em;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.sort-pill:hover { border-color: var(--accent); color: var(--accent3); }
-.sort-pill.active { background: rgba(124,58,237,0.25); border-color: var(--accent2); color: var(--accent3); }
-
-.filter-badge {
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 7px 14px;
-  border-radius: 4px;
-  border: 1px solid var(--border2);
-  color: var(--muted2);
-  cursor: pointer;
-  background: transparent;
-  transition: all 0.15s;
-  margin-left: auto;
-}
-
-.filter-badge:hover { border-color: var(--accent); color: var(--accent3); }
-
-/* ---- LEVEL LIST ---- */
-.list-wrap {
-  position: relative;
-  z-index: 5;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem 80px;
-}
-
-.level-card {
-  display: flex; /* This is the most important line! */
-  align-items: stretch;
-  flex-direction: row; /* This ensures it stays horizontal */
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: 8px;
-  overflow: hidden;
-  min-height: 100px; /* Optional: keeps cards a consistent height */
-}
-
-.level-card:hover {
-  border-color: var(--border2);
-  background: var(--surface2);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* stagger */
-.level-card:nth-child(1){animation-delay:0.02s}
-.level-card:nth-child(2){animation-delay:0.04s}
-.level-card:nth-child(3){animation-delay:0.06s}
-.level-card:nth-child(4){animation-delay:0.08s}
-.level-card:nth-child(5){animation-delay:0.10s}
-.level-card:nth-child(6){animation-delay:0.12s}
-.level-card:nth-child(7){animation-delay:0.14s}
-.level-card:nth-child(8){animation-delay:0.16s}
-.level-card:nth-child(9){animation-delay:0.18s}
-.level-card:nth-child(10){animation-delay:0.20s}
-
-/* ---- THUMBNAIL ---- */
-.thumb {
-  width: 140px;
-  min-width: 140px;
-  position: relative;
-  overflow: hidden;
-}
-
-.thumb-bg {
-  width: 100%;
-  height: 100%;
-  min-height: 82px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: rgba(255,255,255,0.35);
-  text-align: center;
-  padding: 8px;
-  position: relative;
-}
-
-.thumb-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 60%, var(--surface) 100%);
-}
-
-.rank-num {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  z-index: 2;
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(0,0,0,0.6);
-}
-
-.rank-1 { color: var(--gold); }
-.rank-2 { color: var(--silver); }
-.rank-3 { color: var(--bronze); }
-.rank-other { color: var(--muted2); }
-
-.star-icon {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 2;
-  font-size: 13px;
-  color: var(--gold);
-}
-
-/* ---- CARD INFO ---- */
-.card-info {
-  flex: 1;
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  min-width: 0;
-}
-
-.level-name {
-  font-family: 'Nunito', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.verifier-line {
-  font-size: 12px;
-  color: var(--muted2);
-}
-
-.verifier-line strong {
-  color: var(--accent3);
-  font-weight: 500;
-}
-
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 2px;
-}
-
-.tag {
-  font-family: 'Nunito', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 3px;
-  letter-spacing: 0.01em;
-  border: 1px solid;
-}
-
-.tag-new { background: rgba(251,191,36,0.1); color: #fbbf24; border-color: rgba(251,191,36,0.3); }
-.tag-up { background: rgba(52,211,153,0.1); color: #34d399; border-color: rgba(52,211,153,0.3); }
-.tag-down { background: rgba(248,113,113,0.1); color: #f87171; border-color: rgba(248,113,113,0.3); }
-.tag-q { background: rgba(167,139,250,0.1); color: var(--accent3); border-color: rgba(167,139,250,0.3); }
-.tag-victor-none { background: rgba(248,113,113,0.08); color: #f87171; border-color: rgba(248,113,113,0.2); }
-.tag-victor-few { background: rgba(167,139,250,0.08); color: var(--accent3); border-color: rgba(167,139,250,0.2); }
-.tag-victor-many { background: rgba(52,211,153,0.08); color: #34d399; border-color: rgba(52,211,153,0.2); }
-
-/* ---- CARD META ---- */
-.card-meta {
-  min-width: 130px;
-  padding: 12px 16px;
-  border-left: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 6px;
-}
-
-.pts {
-  font-family: 'Nunito', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--green);
-  letter-spacing: 0.05em;
-}
-
-.meta-verifier {
-  text-align: right;
-}
-
-.meta-verifier .mlabel {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 700;
-}
-
-.meta-verifier .mvalue {
-  font-size: 13px;
-  color: var(--muted2);
-  font-weight: 400;
-}
-
-.show-details {
-  font-size: 12px;
-  color: var(--muted);
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 2px;
-  transition: color 0.2s;
-}
-
-.level-card:hover .show-details { color: var(--accent3); }
-
-/* ---- EXPANDED PANEL ---- */
-.expand-panel {
-  display: none;
-  background: rgba(10,10,15,0.5);
-  border-top: 1px solid var(--border);
-  padding: 12px 20px 14px;
-}
-
-.expand-panel.open { display: block; }
-
-.expand-title {
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 8px;
-}
-
-.victor-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.victor-chip {
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 3px;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  color: var(--muted2);
-}
-
-.no-victors {
-  font-size: 12px;
-  color: var(--muted);
-  font-style: italic;
-}
-
-/* ---- FOOTER ---- */
-footer {
-  position: relative;
-  z-index: 5;
-  border-top: 1px solid var(--border);
-  padding: 20px 2rem;
-  text-align: center;
-  font-size: 13px;
-  color: var(--muted);
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 600;
-}
-
-.showing-count {
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  padding: 0 0 12px;
-}
-
-/* thumb color themes */
-.tc0 { background: linear-gradient(135deg, #1a0a2e 0%, #3d1a6e 100%); }
-.tc1 { background: linear-gradient(135deg, #0a1a2e 0%, #1a4a6e 100%); }
-.tc2 { background: linear-gradient(135deg, #2e0a0a 0%, #6e2a1a 100%); }
-.tc3 { background: linear-gradient(135deg, #0a2e0a 0%, #1a5a3a 100%); }
-.tc4 { background: linear-gradient(135deg, #2e1a0a 0%, #6e4a1a 100%); }
-
-/* CBF tag */
-.tag-cbf {
-  font-family: 'Nunito', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: rgba(96,165,250,0.12);
-  color: #60a5fa;
-  border: 1px solid rgba(96,165,250,0.3);
-  letter-spacing: 0.02em;
-}
-
-/* nav-pill as anchor */
-a.nav-pill {
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-/* ---- MODAL OVERLAY ---- */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
+/* Modal Overlay */
+.modal-overlay { 
+  display: none; 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.9); 
+  z-index: 2000; 
+  align-items: center; 
+  justify-content: center; 
   padding: 20px;
 }
-.modal-overlay.open { display: flex; }
+.modal-overlay.active { display: flex; }
+.modal-box { 
+  background: var(--bg2); 
+  border: 1px solid var(--border2); 
+  width: 100%; 
+  max-width: 550px; 
+  border-radius: 20px; 
+  padding: 50px; 
+  position: relative; 
+  animation: modalIn 0.3s ease-out;
+}
+@keyframes modalIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.modal {
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 700px;
-  max-height: 85vh;
-  overflow-y: auto;
-  position: relative;
+.close-modal { 
+  position: absolute; 
+  top: 25px; 
+  right: 25px; 
+  background: none; 
+  border: none; 
+  color: var(--muted2); 
+  font-size: 24px; 
+  cursor: pointer; 
 }
-
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 18px;
-  background: transparent;
-  border: none;
-  color: var(--muted2);
-  font-size: 22px;
-  cursor: pointer;
-  line-height: 1;
-  z-index: 2;
-  font-family: 'Nunito', sans-serif;
-}
-.modal-close:hover { color: #fff; }
-
-.modal-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-tab {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 14px;
-  padding: 18px 28px;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  color: var(--muted2);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  transition: all 0.15s;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-.modal-tab:hover { color: var(--accent3); }
-.modal-tab.active { color: var(--accent3); border-bottom-color: var(--accent); }
-
-.modal-body { padding: 28px 32px; }
-
-.modal-panel { display: none; }
-.modal-panel.active { display: block; }
-
-/* Rules panel */
-.rules-section { margin-bottom: 24px; }
-.rules-section h3 {
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
-.rules-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text);
-}
-.rules-icon {
-  flex-shrink: 0;
-  width: 20px;
-  font-size: 15px;
-  margin-top: 1px;
-}
-.rules-highlight {
-  display: inline;
-  padding: 1px 7px;
-  border-radius: 3px;
-  font-weight: 700;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px;
-}
-.rh-red { background: rgba(248,113,113,0.15); color: #f87171; }
-.rh-pink { background: rgba(232,121,249,0.15); color: #e879f9; }
-.rh-blue { background: rgba(96,165,250,0.15); color: #60a5fa; }
-.rh-green { background: rgba(52,211,153,0.15); color: #34d399; }
-.rh-purple { background: rgba(167,139,250,0.15); color: var(--accent3); }
-
-/* Submit panel */
-.submit-box {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  padding: 24px;
-  text-align: center;
-}
-.submit-box p {
-  font-size: 14px;
-  color: var(--muted2);
-  margin-bottom: 20px;
-  line-height: 1.7;
-}
-.submit-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(124,58,237,0.25);
-  border: 1px solid var(--accent2);
-  color: var(--accent3);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 15px;
-  padding: 12px 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  letter-spacing: 0.03em;
-}
-.submit-btn:hover { background: rgba(124,58,237,0.4); }
-
-.contact-line {
-  margin-top: 20px;
-  font-size: 13px;
-  color: var(--muted);
-}
-.contact-line strong { color: var(--muted2); font-weight: 600; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
-    <div class="logo">
-      TECL
-      <span>The Everything Challenge List</span>
-    </div>
-    <div class="header-right">
-      <button class="nav-pill active" id="btnList">List</button>
-      <button class="nav-pill" id="btnSubmitRules">Submit / Rules</button>
-      <a class="nav-pill" href="https://discord.gg/gd" target="_blank" rel="noopener" id="btnDiscord">Discord</a>
+    <div class="logo">TECL</div>
+    <div class="nav-group">
+      <button class="nav-pill active">List</button>
+      <button class="nav-pill" onclick="openModal()">Rules / Submit</button>
     </div>
   </div>
 </header>
 
-<div class="hero">
-  <h1 class="hero-title">The <em>Everything</em><br>Challenge List</h1>
-  <p class="hero-sub">Compiled and Moderated by the TECL Staff Team</p>
-
-  <div class="stats-row">
-    <div class="stat">
-      <span class="stat-num" id="statVictors">0</span>
-      <span class="stat-label">Victors</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num" id="statBeaten">0</span>
-      <span class="stat-label">Levels Beaten</span>
-    </div>
+<div class="hero-controls">
+  <div class="search-wrapper">
+    <input type="text" class="search-input" id="searchBar" placeholder="Search level, verifier or creator...">
   </div>
 </div>
 
-<div class="controls">
-  <div class="search-wrap">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-    <input class="search-input" id="searchInput" placeholder="Search levels…" type="text">
+<div class="list-container" id="levelContainer">
   </div>
 
-  <span class="sort-label">Sort by:</span>
-  <button class="sort-pill active" data-sort="rank">Rank</button>
-  <button class="sort-pill" data-sort="victors">Victors</button>
-  <button class="sort-pill" data-sort="name">Name</button>
-
-  <button class="filter-badge" id="filterNoVictors">Unbeaten Only</button>
-</div>
-
-<div class="list-wrap">
-  <div class="showing-count" id="showingCount"></div>
-  <div id="levelList"></div>
-</div>
-
-<footer>
- finished the published site :)
-</footer>
-
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <button class="modal-close" id="modalClose">&times;</button>
-    <div class="modal-tabs">
-      <button class="modal-tab active" data-tab="submit">Submit</button>
-      <button class="modal-tab" data-tab="rules">Rules</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-panel active" id="panel-submit">
-        <div class="submit-box">
-          <p>To submit a completion to the TECL, click the button below.<br>Make sure you have read the <strong style="color:var(--accent3);cursor:pointer" id="goToRules">Rules tab</strong> before submitting.</p>
-          <a class="submit-btn" href="#" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Submit a completion
-          </a>
-          <div class="contact-line">Discord (Mainlist editor): <strong>nxru0377</strong></div>
-        </div>
-      </div>
-      <div class="modal-panel" id="panel-rules">
-        <div class="rules-section">
-          <h3>Legend</h3>
-          <div class="rules-item"><span class="rules-icon" style="color:#34d399">↑</span><span><span class="rules-highlight rh-green">#</span> = Placement(s) moved up</span></div>
-          <div class="rules-item"><span class="rules-icon" style="color:#f87171">↓</span><span><span class="rules-highlight rh-red">#</span> = Placement(s) moved down</span></div>
-          <div class="rules-item"><span class="rules-icon" style="color:#60a5fa">*</span><span><span class="rules-highlight rh-blue">*</span> = Idle, has not been moved</span></div>
-          <div class="rules-item"><span class="rules-icon" style="color:#a78bfa">?</span><span><span class="rules-highlight rh-purple">?</span> = New level, not enough opinion for an accurate placement</span></div>
-          <div class="rules-item"><span class="rules-icon">★</span><span><span class="rules-highlight rh-blue">CBF</span> on a level indicates it was verified/completed with the CBF mod</span></div>
-        </div>
-        <div class="rules-section">
-          <h3>Highlighted levels</h3>
-          <div class="rules-item"><span class="rules-icon">🔴</span><span><span class="rules-highlight rh-red">Highlighted in red</span> = Marked for removal</span></div>
-          <div class="rules-item"><span class="rules-icon">🟣</span><span><span class="rules-highlight rh-pink">Highlighted in pink</span> = Blind placement, accurate placement coming soon</span></div>
-        </div>
-        <div class="rules-section">
-          <h3>Submission rules</h3>
-          <div class="rules-item"><span class="rules-icon">▶</span><span>Your completion must be recorded with a CPS counter or audible clicks</span></div>
-          <div class="rules-item"><span class="rules-icon">▶</span><span>Your completions MUST have raw footage</span></div>
-          <div class="rules-item"><span class="rules-icon">▶</span><span>Troll submissions will get you blacklisted.</span></div>
-          <div class="rules-item"><span class="rules-icon">▶</span><span>Contact <strong style="color:var(--muted2)">nxru0377</strong> on Discord for any questions.</span></div>
-        </div>
-      </div>
-    </div>
+<div class="modal-overlay" id="rulesModal">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeModal()">&times;</button>
+    <h2 style="font-family:Nunito; margin-bottom:20px; font-weight:900; font-size:28px;">Submission Rules</h2>
+    <p style="color:var(--muted2); line-height:1.7; margin-bottom:30px;">
+      1. All completions must have audible clicks/taps.<br>
+      2. Raw footage must be provided upon request.<br>
+      3. No hacks or frame-alignment allowed.<br>
+      4. Cheat indicator must be visible if using MegaHack.
+    </p>
+    <a href="https://discord.gg/yourlink" target="_blank" class="accent-link" style="font-size:18px;">Join our Discord to submit →</a>
   </div>
 </div>
 
 <script>
-const levels = [
-  {rank:1,  name:"LOVESTRUCK",           verifier:"kitsune",     victors:[],                                                                                                                            move:"new",  tc:0, cbf:false, ytId: "tiVKlp6OPUA"},
-  {rank:2,  name:"Withered Flame",        verifier:"kitsune",     victors:[],                                                                                                                           move:"down1",tc:2, cbf:false, ytId: "placeholder"},
-  {rank:3,  name:"mooimimo challenge",    verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false, ytId: "placeholder"},
-  {rank:4,  name:"do it again peasant!!", verifier:"kitsune",     victors:[],                                                                                                                           move:"up1",  tc:4, cbf:false, ytId: "placeholder"},
-  {rank:5,  name:"NECR0MANCY",            verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:0, cbf:false, ytId: "placeholder"},
-  {rank:6,  name:"Lovesick",              verifier:"kitsune",     victors:[],                                                                                                                           move:"down2",tc:1, cbf:false, ytId: "placeholder"},
-  {rank:7,  name:"SFDW",                  verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false, ytId: "placeholder"},
-  {rank:8,  name:"NECRO;MANCY",           verifier:"kitsune",     victors:[],                                                                                                                           move:"up",   tc:0, cbf:false, ytId: "placeholder"},
-  {rank:9,  name:"kitsune chal easy",     verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:4, cbf:false, ytId: "placeholder"},
-  {rank:10, name:"Heat Waves",            verifier:"kitsune",     victors:[],                                                                                                                           move:"down4",tc:2, cbf:false, ytId: "placeholder"},
-  {rank:11, name:"Indigo",                verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:1, cbf:false, ytId: "placeholder"},
-  {rank:12, name:"CorroZ",                verifier:"kitsune",     victors:[],                                                                                                                           move:"new",  tc:3, cbf:false, ytId: "placeholder"},
-  {rank:13, name:"VSCx2",                 verifier:"nev",         victors:["kitsune"],                                                                                                                  move:"",     tc:4, cbf:false, ytId: "placeholder"},
-  {rank:14, name:"Slyvernus (buffdate)",  verifier:"kitsune",     victors:["skitsunafan"],                                                                                                              move:"up",   tc:2, cbf:false, ytId: "placeholder"},
-  {rank:15, name:"re",                    verifier:"torn",        victors:["kitsune"],                                                                                                                  move:"down", tc:0, cbf:false, ytId: "placeholder"},
-  {rank:16, name:"FINAL FLIGHT",          verifier:"Caleger",     victors:["kitsune"],                                                                                                                  move:"down", tc:3, cbf:false, ytId: "placeholder"},
-  {rank:17, name:"final; fantasy",        verifier:"telepracity", victors:["parker","PDarky","paqoe","kitsune","raphyy","m/","DenseCabbage","BryceTheBest","NucDev"],                                   move:"new",  tc:1, cbf:false, ytId: "placeholder"},
-  {rank:18, name:"VSC",                   verifier:"Yossarian",   victors:["Diamond","Nev9","paqoe","Denni","fluxe","Cursed","Doggie","Conix","kitsune","Cat enthusiast","jacksonamore","Jonah","Trick","seels55","Netermind","The_Bat0","richoffairpods","notkris","zStucc","LAMINGTON","xaern","kirtricky","loststraggler","pohgii","za1lx","Sydno","teraaa","zRoud","wint3r","cavez","OverGD","Tihra","nobbbin"], move:"new",tc:4, cbf:false, ytId: "placeholder"},
-  {rank:19, name:"EVIL",                  verifier:"Hellfire2603",victors:["kitsune"],                                                                                                                  move:"q",    tc:2, cbf:false, ytId: "placeholder"},
-  {rank:20, name:"Illusion of Hell",      verifier:"OverGD",      victors:["Diamond","kitsune"],                                                                                                        move:"down", tc:0, cbf:false, ytId: "placeholder"},
-  {rank:21, name:"INTERCONNECTED",       verifier:"NucGDStuff",  victors:["kitsune"],                                                                                                                  move:"",     tc:3, cbf:true, ytId: "placeholder"},
-  {rank:22, name:"EXPIRATION DATE",       verifier:"Quad",        victors:["seels55","kitsune","notkris"],                                                                                              move:"new",  tc:1, cbf:false, ytId: "placeholder"},
-  {rank:23, name:"anodyne",               verifier:"zXdasfa",     victors:["kitsune","OverGD"],                                                                                                         move:"",     tc:2, cbf:false, ytId: "placeholder"},
-  {rank:24, name:"Oblivers",              verifier:"OverGD",      victors:["seels55","Cat enthusiast","Sydno","LAMINGTON","jake","kitsune"],                                                             move:"new",  tc:4, cbf:false, ytId: "placeholder"},
+// --- FULL 24-LEVEL DATASET ---
+const levelData = [
+  {rank:1, name:"LOVESTRUCK", verifier:"kitsune", creators:"kitsune", id:"10482912", len:"0:14", date:"May 2024", nong:"#", ytId:"tiVKlp6OPUA", victors:[]},
+  {rank:2, name:"Withered Flame", verifier:"kitsune", creators:"kitsune", id:"98273411", len:"0:22", date:"Apr 2024", nong:"#", ytId:"cZ4NNwgUQF4", victors:[]},
+  {rank:3, name:"mooimimo challenge", verifier:"kitsune", creators:"kitsune", id:"10293847", len:"0:11", date:"May 2024", nong:"#", ytId:"mBeAKvx3jFk", victors:[]},
+  {rank:4, name:"do it again peasant!!", verifier:"kitsune", creators:"kitsune", id:"10293848", len:"0:08", date:"May 2024", nong:"#", ytId:"jiW0dc93GBM", victors:[]},
+  {rank:5, name:"NECR0MANCY", verifier:"kitsune", creators:"kitsune", id:"10293849", len:"0:34", date:"May 2024", nong:"#", ytId:"nFBjAHO331M", victors:[]},
+  {rank:6, name:"Lovesick", verifier:"kitsune", creators:"kitsune", id:"10293850", len:"0:19", date:"May 2024", nong:"#", ytId:"xiSHaVKr6PM", victors:[]},
+  {rank:7, name:"SFDW", verifier:"kitsune", creators:"kitsune", id:"10293851", len:"0:25", date:"May 2024", nong:"#", ytId:"bqMdeKvx56A", victors:[]},
+  {rank:8, name:"NECRO;MANCY", verifier:"kitsune", creators:"kitsune", id:"10293852", len:"0:34", date:"May 2024", nong:"#", ytId:"nFBjAHO331M", victors:[]},
+  {rank:9, name:"kitsune chal easy", verifier:"kitsune", creators:"kitsune", id:"10293853", len:"0:05", date:"May 2024", nong:"#", ytId:"AFVlYRCH8uo", victors:[]},
+  {rank:10, name:"Heat Waves", verifier:"kitsune", creators:"kitsune", id:"10293854", len:"0:42", date:"May 2024", nong:"#", ytId:"p6zh6yetKqQ", victors:[]},
+  {rank:11, name:"Indigo", verifier:"kitsune", creators:"kitsune", id:"10293855", len:"0:16", date:"May 2024", nong:"#", ytId:"WaBF6w_OnDQ", victors:[]},
+  {rank:12, name:"CorroZ", verifier:"kitsune", creators:"kitsune", id:"10293856", len:"0:15", date:"May 2024", nong:"#", ytId:"C-YuzG4qOHI", victors:[]},
+  {rank:13, name:"VSCx2", verifier:"nev", creators:"nev", id:"10293857", len:"0:31", date:"May 2024", nong:"#", ytId:"92Msl_EI-5E", victors:["kitsune"]},
+  {rank:14, name:"Slyvernus", verifier:"kitsune", creators:"kitsune", id:"10293858", len:"1:02", date:"May 2024", nong:"#", ytId:"v0_sHu8xzbk", victors:["skitsunafan"]},
+  {rank:15, name:"re", verifier:"torn", creators:"torn", id:"10293859", len:"0:12", date:"May 2024", nong:"#", ytId:"Rz7Um6lxYYU", victors:["kitsune"]},
+  {rank:16, name:"FINAL FLIGHT", verifier:"Caleger", creators:"Caleger", id:"10293860", len:"0:22", date:"May 2024", nong:"#", ytId:"Nwy9t3gMYQ4", victors:["kitsune"]},
+  {rank:17, name:"final; fantasy", verifier:"telepracity", creators:"telepracity", id:"10293861", len:"0:45", date:"May 2024", nong:"#", ytId:"Fb6w_l0Q5DM", victors:["parker","paqoe","kitsune"]},
+  {rank:18, name:"VSC", verifier:"Yossarian", creators:"Yossarian", id:"10293862", len:"0:16", date:"May 2024", nong:"#", ytId:"ewlMbTR-c_w", victors:["Diamond","paqoe","kitsune"]},
+  {rank:19, name:"EVIL", verifier:"Hellfire2603", creators:"Hellfire2603", id:"10293863", len:"0:51", date:"May 2024", nong:"#", ytId:"sRYv66oZeJk", victors:["kitsune"]},
+  {rank:20, name:"Illusion of Hell", verifier:"OverGD", creators:"OverGD", id:"10293864", len:"0:28", date:"May 2024", nong:"#", ytId:"nBmjrlmzUxE", victors:["Diamond","kitsune"]},
+  {rank:21, name:"INTERCONNECTED", verifier:"NucGDStuff", creators:"NucGDStuff", id:"10293865", len:"0:33", date:"May 2024", nong:"#", ytId:"wOPLy7rK6pk", victors:["kitsune"]},
+  {rank:22, name:"EXPIRATION DATE", verifier:"Quad", creators:"Quad", id:"10293866", len:"0:14", date:"May 2024", nong:"#", ytId:"1nltyMOpLqI", victors:["seels55","kitsune"]},
+  {rank:23, name:"anodyne", verifier:"zXdasfa", creators:"zXdasfa", id:"10293867", len:"0:19", date:"May 2024", nong:"#", ytId:"zl7cgZI0jrU", victors:["kitsune"]},
+  {rank:24, name:"Oblivers", verifier:"OverGD", creators:"OverGD", id:"10293868", len:"0:44", date:"May 2024", nong:"#", ytId:"cfcVzI2Ag1A", victors:["seels55","kitsune"]}
 ];
 
-const allVictors = new Set(levels.flatMap(l=>l.victors));
-const beatenLevels = levels.filter(l=>l.victors.length>0).length;
+let ytPlayers = {};
 
-// Updated safely check elements before setting
-const vStatEl = document.getElementById('statVictors');
-const bStatEl = document.getElementById('statBeaten');
-if(vStatEl) vStatEl.textContent = allVictors.size;
-if(bStatEl) bStatEl.textContent = beatenLevels;
+// Function: Build the List UI
+function buildList(data) {
+  const container = document.getElementById('levelContainer');
+  container.innerHTML = data.map((l, i) => {
+    const victorsMarkup = l.victors.length > 0 
+      ? l.victors.map(v => `<div class="victor-row"><span class="victor-name">${v}</span><span style="color:var(--gold); font-weight:900;">100%</span></div>`).join('')
+      : '<p style="color:var(--muted); font-size:14px;">No completions recorded.</p>';
 
-function moveTag(m) {
-  if(m==="new") return '<span class="tag tag-new">New</span>';
-  if(m==="q")   return '<span class="tag tag-q">? Placement</span>';
-  if(m.startsWith("up"))   return `<span class="tag tag-up">&#8593; ${m.slice(2)||""}</span>`;
-  if(m.startsWith("down")) return `<span class="tag tag-down">&#8595; ${m.slice(4)||""}</span>`;
-  return "";
-}
-
-function victorTag(v) {
-  const n = v.length;
-  if(n===0) return '<span class="tag tag-victor-none">No victors</span>';
-  if(n<=3)  return `<span class="tag tag-victor-few">${n} victor${n>1?"s":""}</span>`;
-  return `<span class="tag tag-victor-many">${n} victors</span>`;
-}
-
-function pts(rank) {
-  return (2400 - (rank-1)*20).toLocaleString() + " pts";
-}
-
-function rankClass(r) {
-  if(r===1) return "rank-1";
-  if(r===2) return "rank-2";
-  if(r===3) return "rank-3";
-  return "rank-other";
-}
-function renderCard(l, i) {
-  const hasStar = l.rank <= 3;
-  const victorHtml = l.victors.length > 0
-    ? l.victors.map(v=>`<span class="victor-chip">${v}</span>`).join("")
-    : '<span class="no-victors">No victors yet</span>';
-
-  // THIS IS THE NEW PART: It checks for the YouTube ID
-  const thumbContent = l.ytId 
-    ? `<img src="https://img.youtube.com/vi/${l.ytId}/mqdefault.jpg" class="thumb-img">`
-    : `<div class="thumb-bg tc${l.tc}">${l.name}</div>`;
-
-  return `<div class="level-card" data-idx="${i}" style="animation-delay:${Math.min(i*0.025,0.3)}s">
-    <div class="thumb">
-      <div class="thumb">
-  ${thumbContent} 
-  <div class="rank-num ...">#${l.rank}</div>
-</div>
-    <div class="card-info">
-      <div class="level-name">${l.name}</div>
-      <div class="verifier-line">Verified by <strong>${l.verifier}</strong></div>
-      ${l.cbf ? '<div style="margin-top:5px"><span class="tag-cbf">CBF</span></div>' : ''}
-    </div>
-    <div class="card-meta">
-      <div class="pts">${pts(l.rank)}</div>
-      <div class="meta-verifier">
-        <div class="mlabel">Verifier</div>
-        <div class="mvalue">${l.verifier}</div>
+    return `
+      <div class="level-card" onclick="toggleDetails(${i}, '${l.ytId}')">
+        <div class="thumb-area">
+          <img src="https://img.youtube.com/vi/${l.ytId}/mqdefault.jpg" class="thumb-img">
+          <div class="rank-tag">#${l.rank}</div>
+        </div>
+        <div class="card-content">
+          <div class="level-title">${l.name}</div>
+          <div class="level-author">By <strong>${l.creators}</strong> — Verified by <strong>${l.verifier}</strong></div>
+        </div>
+        <div class="card-meta-end">
+          <div class="score-value">${(2500 - (l.rank * 15)).toLocaleString()} pts</div>
+          <div class="score-label">Challenge Points</div>
+        </div>
       </div>
-      <div class="show-details">Show details &#8964;</div>
-    </div>
-  </div>
-  <div class="expand-panel" id="exp-${i}">
-    <div class="expand-title">Victors (${l.victors.length})</div>
-    <div class="victor-chips">${victorHtml}</div>
-  </div>`;
+      <div class="detail-panel" id="detail-${i}">
+        <div class="panel-video">
+          <div class="section-head">Video Preview</div>
+          <div class="video-wrapper"><div id="yt-player-${i}"></div></div>
+        </div>
+        <div class="panel-info">
+          <div class="section-head">Level Details</div>
+          <div class="stat-item"><span class="stat-label">ID</span><span class="stat-val">${l.id}</span></div>
+          <div class="stat-item"><span class="stat-label">Length</span><span class="stat-val">${l.len}</span></div>
+          <div class="stat-item"><span class="stat-label">Date</span><span class="stat-val">${l.date}</span></div>
+          <div class="stat-item"><span class="stat-label">NoNG</span><span class="stat-val"><a href="${l.nong}" class="accent-link">Download Link</a></span></div>
+          <div class="section-head" style="margin-top:35px">Victors</div>
+          ${victorsMarkup}
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
-let filterNoVictors = false;
-let currentSort = "rank";
-let searchQ = "";
+// Function: Toggle Dropdown & Init YT Player
+function toggleDetails(index, videoId) {
+  const panel = document.getElementById(`detail-${index}`);
+  const isCurrentlyOpen = panel.classList.contains('open');
 
-function getFiltered() {
-  let list = [...levels];
-  if(searchQ) {
-    const q = searchQ.toLowerCase();
-    list = list.filter(l => l.name.toLowerCase().includes(q) || l.verifier.toLowerCase().includes(q));
+  // Close all other panels
+  document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('open'));
+
+  if (!isCurrentlyOpen) {
+    panel.classList.add('open');
+    // Lazy-load the YouTube player to prevent lag and Error 153
+    if (!ytPlayers[index]) {
+      ytPlayers[index] = new YT.Player(`yt-player-${index}`, {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: { 'rel': 0, 'enablejsapi': 1 }
+      });
+    }
   }
-  if(filterNoVictors) list = list.filter(l => l.victors.length === 0);
-  if(currentSort === "victors") list.sort((a,b) => b.victors.length - a.victors.length);
-  else if(currentSort === "name") list.sort((a,b) => a.name.localeCompare(b.name));
-  else list.sort((a,b) => a.rank - b.rank);
-  return list;
 }
 
-function render() {
-  const list = getFiltered();
-  const container = document.getElementById("levelList");
-  if(!container) return;
-  container.innerHTML = list.map((l,i) => renderCard(l, levels.indexOf(l))).join("");
-  const showCountEl = document.getElementById("showingCount");
-  if(showCountEl) showCountEl.textContent = `Showing ${list.length} of ${levels.length} levels`;
-
-  container.querySelectorAll(".level-card").forEach(card => {
-    card.addEventListener("click", () => {
-      const idx = card.dataset.idx;
-      const panel = document.getElementById("exp-"+idx);
-      panel.classList.toggle("open");
-    });
-  });
-}
-
-document.getElementById("searchInput").addEventListener("input", e => {
-  searchQ = e.target.value;
-  render();
+// Function: Real-time Search
+document.getElementById('searchBar').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const filtered = levelData.filter(l => 
+    l.name.toLowerCase().includes(query) || 
+    l.verifier.toLowerCase().includes(query) || 
+    l.creators.toLowerCase().includes(query)
+  );
+  buildList(filtered);
 });
 
-document.querySelectorAll(".sort-pill").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".sort-pill").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentSort = btn.dataset.sort;
-    render();
-  });
-});
+// Modal Logic
+function openModal() { document.getElementById('rulesModal').classList.add('active'); }
+function closeModal() { document.getElementById('rulesModal').classList.remove('active'); }
 
-const filterBtn = document.getElementById("filterNoVictors");
-if(filterBtn) {
-  filterBtn.addEventListener("click", function() {
-    filterNoVictors = !filterNoVictors;
-    this.classList.toggle("active");
-    this.style.borderColor = filterNoVictors ? "var(--accent)" : "";
-    this.style.color = filterNoVictors ? "var(--accent3)" : "";
-    render();
-  });
-}
-
-render();
-
-document.getElementById('btnList').addEventListener('click', () => {
-  const listWrap = document.getElementById('levelList');
-  if(listWrap) listWrap.scrollIntoView({behavior:'smooth'});
-});
-
-document.getElementById('btnSubmitRules').addEventListener('click', () => {
-  document.getElementById('modalOverlay').classList.add('open');
-  setModalTab('submit');
-});
-
-document.getElementById('modalClose').addEventListener('click', () => {
-  document.getElementById('modalOverlay').classList.remove('open');
-});
-
-document.getElementById('modalOverlay').addEventListener('click', function(e) {
-  if(e.target === this) this.classList.remove('open');
-});
-
-document.querySelectorAll('.modal-tab').forEach(tab => {
-  tab.addEventListener('click', () => setModalTab(tab.dataset.tab));
-});
-
-document.getElementById('goToRules').addEventListener('click', () => setModalTab('rules'));
-
-function setModalTab(name) {
-  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.modal-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-'+name));
+// Initial Render on API Ready
+function onYouTubeIframeAPIReady() {
+  buildList(levelData);
 }
 </script>
-
 </body>
 </html>
